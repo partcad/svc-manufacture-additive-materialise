@@ -340,7 +340,11 @@ if __name__ == "caps":
     materials = api_get_materials()
     output = {
         "name": "imaterialise",
-        "formats": ["step"],
+        "formats": [
+            "3ds", "stl", "igs", "model", "mxp", "obj", "wrl", "3dm", "zip", "rar", "7z", 
+            "skp", "dae", "fbx", "matPart", "ply", "magics", "mgx", "x3d", "x3dv", "3mf", 
+            "stp", "step", "prt", "zpr"
+        ],
         "materials": {}
     }
     supported_materials = {
