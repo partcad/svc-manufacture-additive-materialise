@@ -21,7 +21,7 @@ else:
     
 material_package_to_name_mapping = {
     "/pub/std/manufacturing/material/plastic:pla": "PLA",
-    "/pub/std/manufacturing/material/plastic:abs": "ABS",
+    "/pub/std/manufacturing/material/plastic:abs": "ABS-M30",
     "/pub/std/manufacturing/material/plastic:nylon": "Nylon"
 }
 
@@ -288,11 +288,13 @@ def set_finish(material, finish):
 def api_get_materials():
     global headers_get_materials
     
+    email = request['parameters']['email'] or request['user']['email']
     response = api_call(
-        "/web-api/materials?user=support@partcad.org",
+        f"/web-api/materials?user={email}",
         method="GET",
         headers=headers_get_materials
     )
+    sys.stderr.write(f"/web-api/materials?user={response}\n")
     materials = {}
     for material in response["materials"]:
         materials[material["name"]] = {
@@ -349,7 +351,7 @@ if __name__ == "caps":
     }
     supported_materials = {
         "PLA": "/pub/std/manufacturing/material/plastic:pla",
-        "ABS": "/pub/std/manufacturing/material/plastic:abs",
+        "ABS-M30": "/pub/std/manufacturing/material/plastic:abs",
         "Nylon": "/pub/std/manufacturing/material/plastic:nylon"
     }
     for supported_material in supported_materials:
@@ -358,7 +360,7 @@ if __name__ == "caps":
                 "finishes": materials[supported_material]["finishes"],
                 "colors": materials[supported_material]["finishes"]
             }
-    sys.stderr.write("Materials: {}\n".format(output["materials"]))
+    # sys.stderr.write("Materials: {}\n".format(output["materials"]))
 
 elif __name__ == "avail":
     vendor = request.get("vendor", None)
